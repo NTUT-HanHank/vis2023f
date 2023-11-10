@@ -1,0 +1,14 @@
+{
+  "name": "10657a9fafab3783",
+  "main": "10657a9fafab3783@226.js",
+  "version": "226.0.0",
+  "homepage": "https://observablehq.com/d/10657a9fafab3783",
+  "author": {
+    "name": "Hank's Workspace",
+    "url": "https://observablehq.com/@hank2-ws"
+  },
+  "type": "module",
+  "peerDependencies": {
+    "@observablehq/runtime": "4 - 5"
+  }
+}
