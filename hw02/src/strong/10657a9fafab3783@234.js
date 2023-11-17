@@ -63,6 +63,53 @@ Plot.plot({
 })
 )}
 
+function _histogramData(){return(
+[]
+)}
+
+function _constellations(){return(
+[ "牡羊座", "金牛座", "雙子座", "巨蟹座", "獅子座", "處女座", "天秤座", "天蠍座", "射手座", "摩羯座", "水瓶座", "雙魚座"]
+)}
+
+function _9(histogramData,data,constellations)
+{
+  histogramData.length = 0;
+  data.forEach ( x => {
+    let constellation = constellations[x.Constellation];
+    let printRow = {
+      ConstellationNumber: x.Constellation,
+      Constellation: constellation,
+      Gender: x.Gender,
+    };
+    histogramData.push(printRow);
+  });
+  return histogramData;
+}
+
+
+function _10(Plot,constellations,histogramData){return(
+Plot.plot({
+
+  color: {legend: true},
+  x: {grid: true, label: "Constellation →", ticks: 10, tickFormat: (d) => constellations[d]},
+  y: {grid: true, label: "Count"},
+  marks: [
+    Plot.rectY(histogramData,
+      Plot.binX(
+        {y: "Count"},
+        {
+          x: "ConstellationNumber",
+          fill: "Gender",
+          title: (data) => `Constellation: ${data.Constellation}\nGender: ${data.Gender}`,
+          interval: 1,
+          tip: true,
+        },
+      ),
+    ),    
+  ]
+})
+)}
+
 export default function define(runtime, observer) {
   const main = runtime.module();
   function toString() { return this.url; }
@@ -76,5 +123,9 @@ export default function define(runtime, observer) {
   main.variable(observer("cons")).define("cons", ["data"], _cons);
   main.variable(observer()).define(["yCounts","cons","data"], _5);
   main.variable(observer()).define(["Plot","yCounts"], _6);
+  main.variable(observer("histogramData")).define("histogramData", _histogramData);
+  main.variable(observer("constellations")).define("constellations", _constellations);
+  main.variable(observer()).define(["histogramData","data","constellations"], _9);
+  main.variable(observer()).define(["Plot","constellations","histogramData"], _10);
   return main;
 }
